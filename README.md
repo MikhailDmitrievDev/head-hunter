@@ -1,0 +1,1 @@
+Python lib for work with HeadHunter

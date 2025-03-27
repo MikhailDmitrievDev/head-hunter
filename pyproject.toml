@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "head-hunter"
+version = "0.1.0"
+description = "Lib for work with hh.ru"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Mikhail Podbereznikov", email = "podbereznikov34@gmai.com" }
+]
+license = { text = "BSD" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = ["httpx>=0.28.1", "pydantic-settings>=2.8.1", "orjson>=3.10.15"]
+
+[project.urls]
+"Homepage" = "https://github.com/MikhailDmitrievDev/head-hunter"
+
+
+
+
