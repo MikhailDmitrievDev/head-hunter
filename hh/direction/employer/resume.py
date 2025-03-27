@@ -1,4 +1,4 @@
-from hh.core.settings import EmployerDirectionPath
+from hh.core.paths import EmployerDirectionPath
 from hh.direction.category import Category
 from hh.direction.employer.struct import SearchQuery
 

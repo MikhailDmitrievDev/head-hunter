@@ -1,17 +1,9 @@
-import enum
 from dataclasses import dataclass
 
+from hh.direction.applicant.applicant import ApplicantDirection
 from hh.direction.employer.employer import EmployerDirection
 
-DIRECTION = {"applicant": "applicant", "employer": EmployerDirection()}
-
-
-class EmployerDirectionPath(enum.Enum):
-    resumes = "/resumes"
-
-
-class CommonDirectionPath(enum.Enum):
-    vacancies = "/vacancies"
+DIRECTION = {"applicant": ApplicantDirection, "employer": EmployerDirection()}
 
 
 @dataclass

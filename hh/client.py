@@ -1,5 +1,7 @@
 from hh.core.settings import config
-from hh.core.settings import DIRECTION
+from hh.direction.applicant.applicant import ApplicantDirection
+from hh.direction.common.common import CommonDirection
+from hh.direction.employer.employer import EmployerDirection
 
 
 class HHClient:
@@ -9,7 +11,6 @@ class HHClient:
         client_id: str,
         client_secret: str,
         grant_type: str = config.default_grant_type,
-        direction: str = "applicant",
     ):
         """
         HHClient - client for HH API.
@@ -21,15 +22,21 @@ class HHClient:
         self.client_id = client_id
         self.client_secret = client_secret
         self.grant_type = grant_type
-        try:
-            self.direction = DIRECTION[direction]
-        except KeyError:
-            raise ValueError(
-                f"Unknown direction: {direction}, available: {list(DIRECTION.keys())}"
-            )
 
     async def __aenter__(self):
-        return self.direction
+        return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         pass
+
+    @property
+    def applicant(self) -> ApplicantDirection:
+        return ApplicantDirection()
+
+    @property
+    def employer(self) -> EmployerDirection:
+        return EmployerDirection()
+
+    @property
+    def common(self) -> CommonDirection:
+        return CommonDirection()
