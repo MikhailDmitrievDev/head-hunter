@@ -1,6 +1,6 @@
+from hh.core.authorization import authorization
 from hh.core.paths import EmployerDirectionPath
 from hh.direction.category import Category
-from hh.direction.common.authorization import authorization
 from hh.direction.employer.struct import SearchQuery
 
 

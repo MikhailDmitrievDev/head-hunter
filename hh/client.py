@@ -10,7 +10,6 @@ class HHClient:
         self,
         client_id: str,
         client_secret: str,
-        grant_type: str = config.default_grant_type,
     ):
         """
         HHClient - client for HH API.
@@ -21,13 +20,6 @@ class HHClient:
         """
         config.client_id = client_id
         config.client_secret = client_secret
-        self.grant_type = grant_type
-
-    async def __aenter__(self):
-        return self
-
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
-        pass
 
     @property
     def applicant(self) -> ApplicantDirection:

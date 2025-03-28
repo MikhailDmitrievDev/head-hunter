@@ -7,4 +7,4 @@ class EmployerDirectionPath(enum.Enum):
 
 class CommonDirectionPath(enum.Enum):
     vacancies = "/vacancies"
-    auth = "/oauth/token"
+    auth = "/token"
