@@ -19,8 +19,8 @@ class HHClient:
         :param client_secret: Secure key obtained when creating the application
         :param grant_type: Token request method
         """
-        self.client_id = client_id
-        self.client_secret = client_secret
+        config.client_id = client_id
+        config.client_secret = client_secret
         self.grant_type = grant_type
 
     async def __aenter__(self):

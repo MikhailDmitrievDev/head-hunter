@@ -129,4 +129,4 @@ class SearchQuery:
     last_used_timestamp: str | None = None,
     last_used: str | None = None,
     locale: str | None = None,
-    host: str | None = None,
+    host: str | None = "hh.ru",
