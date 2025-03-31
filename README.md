@@ -1,1 +1,1 @@
-Python lib for work with HeadHunter
+Python lib for work with HeadHunter.
