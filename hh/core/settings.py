@@ -18,6 +18,7 @@ class Config:
     client_secret: str | None = None
     grant_type: GrantType = GrantType.CLIENT
     timeout: float = 10.0
+    api_url: str = "https://api.hh.ru"
 
 
 config = Config()

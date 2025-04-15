@@ -1,4 +1,4 @@
-from hh.direction.common.vacancies import CommonVacancies
+from direction.common.vacancies import CommonVacancies
 
 
 class BaseDirection:

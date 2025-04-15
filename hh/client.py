@@ -1,7 +1,7 @@
-from hh.core.settings import config
-from hh.direction.applicant.applicant import ApplicantDirection
-from hh.direction.common.common import CommonDirection
-from hh.direction.employer.employer import EmployerDirection
+from core.settings import config
+from direction.applicant.applicant import ApplicantDirection
+from direction.common.common import CommonDirection
+from direction.employer.employer import EmployerDirection
 
 
 class HHClient:
@@ -16,7 +16,6 @@ class HHClient:
 
         :param client_id: ID obtained when creating the application
         :param client_secret: Secure key obtained when creating the application
-        :param grant_type: Token request method
         """
         config.client_id = client_id
         config.client_secret = client_secret

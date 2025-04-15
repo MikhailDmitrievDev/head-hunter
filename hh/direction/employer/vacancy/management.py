@@ -8,7 +8,7 @@ class VacancyManagement:
     async def view_vacancy(self, vacancy_id: str):
         pass
 
-    async def get_published(self) -> list:
+    async def get_published(self):
         pass
 
     async def update(self):

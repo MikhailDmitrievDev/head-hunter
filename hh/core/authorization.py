@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 from functools import wraps
 
-from hh.core import api_client
-from hh.core.exceptions import AuthTokenError
-from hh.core.paths import CommonDirectionPath
-from hh.core.settings import config
+from core.exceptions import AuthTokenError
+from core.http import api_client
+from core.paths import CommonDirectionPath
+from core.settings import config
 
 
 def check_expires(expires_in: int):
@@ -20,10 +20,11 @@ x_www_formcontent_type = {"Content-Type": "application/x-www-form-urlencoded"}
 
 
 class Authorization:
-    _path = CommonDirectionPath.auth.value
-    _access_token = None
-    _refresh_token = None
-    _expires_in = None
+    _path: str | None = CommonDirectionPath.auth.value
+    _access_token: str | None = None
+    _refresh_token: str | None = None
+    _expires_in: int | None = None
+    _application_token: str | None = None
 
     async def login(self):
         if not config.client_id or not config.client_secret:
@@ -51,20 +52,19 @@ class Authorization:
 
     @classmethod
     def set_state(cls, body: dict):
-        cls._access_token = body.get("access_token")
-        cls._refresh_token = body.get("refresh_token")
-        cls._expires_in = body.get("expires_in")
+        cls._access_token = body.get("access_token", cls._access_token)
+        cls._refresh_token = body.get("refresh_token", cls._refresh_token)
+        cls._expires_in = body.get("expires_in", cls._expires_in)
 
-    async def dict(self) -> dict:
+    async def auth_headers(self) -> dict:
         """
         Dict representation of authorization credentials.
         :return:
         """
         if not self._access_token:
             await self.login()
-        if not check_expires(self._expires_in):
-            await self.refresh()
-        return dict(access_token=self._access_token, refresh_token=self._refresh_token)
+            return await self.auth_headers()
+        return dict(Authorization=f"Bearer {self._access_token}")
 
 
 _auth = Authorization()
@@ -87,7 +87,7 @@ def authorization(func):
 
     @wraps(func)
     async def wrapper(*args, **kwargs):
-        headers = await _auth.dict()
+        headers = await _auth.auth_headers()
         return await func(headers=headers, *args, **kwargs)
 
     return wrapper

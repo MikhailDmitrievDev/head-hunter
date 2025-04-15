@@ -1,6 +1,6 @@
-from hh.core.base.direction import BaseDirection
-from hh.direction.employer.resume import Resume
-from hh.direction.employer.vacancy.management import VacancyManagement
+from core.base.direction import BaseDirection
+from direction.employer.resume import Resume
+from direction.employer.vacancy.management import VacancyManagement
 
 
 class EmployerDirection(BaseDirection):

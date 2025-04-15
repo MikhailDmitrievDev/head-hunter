@@ -1,4 +1,4 @@
-from hh.core.base.direction import BaseDirection
+from core.base.direction import BaseDirection
 
 
 class CommonDirection(BaseDirection):

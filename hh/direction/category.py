@@ -1,4 +1,4 @@
-from hh.core import api_client
+from core.http import api_client
 
 
 class Category:

@@ -1,4 +1,4 @@
-from hh.core.settings import CommonDirectionPath
+from core.paths import CommonDirectionPath
 
 
 class CommonVacancies:

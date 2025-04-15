@@ -1,3 +1,3 @@
-from hh.client import HHClient
+from client import HHClient
 
 __all__ = ["HHClient"]
