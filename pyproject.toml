@@ -21,11 +21,20 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-
-dependencies = ["httpx>=0.28.1", "pydantic-settings>=2.8.1", "orjson>=3.10.15"]
+dependencies = ["httpx>=0.28.1", "orjson>=3.10.15"]
 
 [project.urls]
 "Homepage" = "https://github.com/MikhailDmitrievDev/head-hunter"
+
+[tool.mypy]
+python_version = "3.11"
+files = ["/hh"]
+strict = true
+ignore_missing_imports = true
+disallow_any_generics = false
+disallow_subclassing_any = false
+warn_unreachable = true
+disallow_untyped_defs = true
 
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "session"

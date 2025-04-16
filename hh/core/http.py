@@ -3,7 +3,7 @@ from typing import Any
 import httpx
 
 from core.exceptions import HTTPErrorResponse
-from core.settings import config
+from core.settings import settings
 
 
 class ApiGatewayClient:
@@ -11,25 +11,34 @@ class ApiGatewayClient:
     def __init__(self, domain: str):
         self.domain = domain
 
-    def make_url(self, path: str):
+    def make_url(self, path: str) -> str:
         return self.domain + path
 
-    async def get(self, path: str, params: dict, headers: dict | None = None):
+    async def get(
+            self,
+            path: str,
+            params: dict[Any, Any],
+            headers: dict[Any, Any] | None = None
+    ) -> dict[Any, Any]:
         async with httpx.AsyncClient() as client:
-            response = await client.get(self.make_url(path), headers=headers, params=self.delete_none_params(params))
+            response = await client.get(
+                self.make_url(path),
+                headers=headers,
+                params=self.delete_none_params(params),
+            )
             if response.is_client_error:
                 raise HTTPErrorResponse(response)
-            return response.json()
+            return dict(response.json())
 
     async def post(
             self,
             path: str,
-            params: dict,
-            headers: dict | None = None,
-            data: dict | None = None,
-            json: dict | None = None,
-            files: dict | None = None,
-    ):
+            params: dict[Any, Any],
+            headers: dict[Any, Any] | None = None,
+            data: dict[Any, Any] | None = None,
+            json: dict[Any, Any] | None = None,
+            files: dict[Any, Any] | None = None,
+    ) -> Any:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 self.make_url(path),
@@ -43,10 +52,20 @@ class ApiGatewayClient:
                 raise HTTPErrorResponse(response)
             return response.json()
 
-    async def update(self, path: str, params: dict, headers: dict | None = None):
+    async def update(
+            self,
+            path: str,
+            params: dict[str, Any],
+            headers: dict[str, Any] | None = None
+    ) -> Any:
         pass
 
-    async def delete(self, path: str, params: dict, headers: dict | None = None):
+    async def delete(
+            self,
+            path: str,
+            params: dict[str, Any],
+            headers: dict[str, Any] | None = None
+    ) -> None:
         pass
 
     @classmethod
@@ -56,4 +75,4 @@ class ApiGatewayClient:
         return {key: value for key, value in params.items() if value is not None}
 
 
-api_client = ApiGatewayClient(domain=config.api_url)
+api_client = ApiGatewayClient(domain=settings.api_url)

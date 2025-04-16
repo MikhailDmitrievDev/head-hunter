@@ -1,7 +1,6 @@
-from core.http import api_client
+from core.http import api_client, ApiGatewayClient
 
 
 class Category:
-    def __init__(self):
-        self.api_client = api_client
-        pass
+    def __init__(self) -> None:
+        self.api_client: ApiGatewayClient = api_client
