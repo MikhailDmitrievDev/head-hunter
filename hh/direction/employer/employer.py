@@ -4,6 +4,6 @@ from direction.employer.vacancy.management import VacancyManagement
 
 
 class EmployerDirection(BaseDirection):
-    vacancy_management = VacancyManagement()
+    vacancy_management: VacancyManagement = VacancyManagement()
     resume = Resume()
 

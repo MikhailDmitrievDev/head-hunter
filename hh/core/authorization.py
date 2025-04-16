@@ -1,13 +1,13 @@
 from datetime import datetime, timedelta
-from functools import wraps
+from typing import Any, Coroutine, Callable
 
 from core.exceptions import AuthTokenError
 from core.http import api_client
 from core.paths import CommonDirectionPath
-from core.settings import config
+from core.settings import settings
 
 
-def check_expires(expires_in: int):
+def check_expires(expires_in: int) -> bool:
     if not expires_in:
         raise AuthTokenError
     now = datetime.now()
@@ -26,37 +26,37 @@ class Authorization:
     _expires_in: int | None = None
     _application_token: str | None = None
 
-    async def login(self):
-        if not config.client_id or not config.client_secret:
+    async def login(self) -> None:
+        if not settings.client_id or not settings.client_secret:
             raise AuthTokenError
         body = await api_client.post(
             path=self._path,
             params=dict(
-                client_id=config.client_id,
-                client_secret=config.client_secret,
-                grant_type=config.grant_type.CLIENT.value,
+                client_id=settings.client_id,
+                client_secret=settings.client_secret,
+                grant_type=settings.grant_type.CLIENT.value,
             ),
             headers=x_www_formcontent_type,
         )
         self.set_state(body)
 
-    async def refresh(self):
+    async def refresh(self) -> None:
         body = await api_client.post(
             path=self._path,
             params=dict(
                 refresh_token=self._refresh_token,
-                grant_type=config.grant_type.REFRESH.value,
+                grant_type=settings.grant_type.REFRESH.value,
             ),
         )
         self.set_state(body)
 
     @classmethod
-    def set_state(cls, body: dict):
+    def set_state(cls, body: dict[str, Any]) -> None:
         cls._access_token = body.get("access_token", cls._access_token)
         cls._refresh_token = body.get("refresh_token", cls._refresh_token)
         cls._expires_in = body.get("expires_in", cls._expires_in)
 
-    async def auth_headers(self) -> dict:
+    async def auth_headers(self) -> dict[str, Any]:
         """
         Dict representation of authorization credentials.
         :return:
@@ -70,11 +70,10 @@ class Authorization:
 _auth = Authorization()
 
 
-def authorization(func):
+def authorization(func: Callable[..., Coroutine]) -> Callable[..., Coroutine]:
     """
     Decorator inserts authorization credentials to request headers.
-
-    Exmaple:
+    Example:
     @authorization
     async def get_employer_info(headers):
         return await api_client.get(
@@ -85,9 +84,9 @@ def authorization(func):
     :return:
     """
 
-    @wraps(func)
-    async def wrapper(*args, **kwargs):
+    async def wrapper(*args: Any, **kwargs: Any) -> Any:
         headers = await _auth.auth_headers()
-        return await func(headers=headers, *args, **kwargs)
+        kwargs["headers"] = headers
+        return await func(*args, **kwargs)
 
     return wrapper

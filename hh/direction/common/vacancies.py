@@ -1,3 +1,5 @@
+from typing import Any
+
 from core.paths import CommonDirectionPath
 
 
@@ -11,11 +13,11 @@ class CommonVacancies:
 
     path: str = CommonDirectionPath.vacancies.value
 
-    async def get_vacancies(self):
+    async def get_vacancies(self) -> Any:
         pass
 
-    async def get_related_vacancies(self):
+    async def get_related_vacancies(self) -> Any:
         pass
 
-    async def get_similar_vacancies(self):
+    async def get_similar_vacancies(self) -> Any:
         pass
